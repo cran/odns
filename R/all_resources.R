@@ -39,7 +39,13 @@ all_resources <- function(package_contains = NULL, resource_contains = NULL) {
   
   cap_url(query)
   
-  res <- httr::GET(query)
+  res <- httr::RETRY(
+    verb = "GET",
+    url = query,
+    times = 3,
+    quiet = TRUE,
+    terminate_on = c(404)
+  )
   
   detect_error(res)
   
@@ -54,19 +60,20 @@ all_resources <- function(package_contains = NULL, resource_contains = NULL) {
   out <- data.table::rbindlist(out, use.names = TRUE, fill = TRUE)
   
   out <- data.frame(
-    resource_name = unlist(out$name),
-    resource_id = unlist(out$id),
-    package_name = unname(pkgs[unlist(out$package_id)]),
-    package_id = unlist(out$package_id),
-    url = unlist(out$url),
-    last_modified = unlist(out$last_modified)
+    resource_name = unlist(as.character(out$name)),
+    resource_id = unlist(as.character(out$id)),
+    package_name = unname(as.character(pkgs[unlist(out$package_id)])),
+    package_id = unlist(as.character(out$package_id)),
+    url = unlist(as.character(out$url)),
+    last_modified = unlist(as.character(out$last_modified)),
+    stringsAsFactors = FALSE
   )
   
   if (!is.null(resource_contains)) {
     out <- out[grepl(as.character(resource_contains), out$resource_name, ignore.case = TRUE),] 
     if (nrow(out) == 0)  warning(
       "No resources found for arguments provided. Returning empty data.frame."
-      )
+    )
   }
   
   return(out)

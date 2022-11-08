@@ -352,20 +352,60 @@ and the resource. <br><br></p>
 #
 #...
 
+#&#39; view metadata for a package using a valid package id
+
+&gt; package_metadata(package = &quot;4dd86111-7326-48c4-8763-8cc4aa190c3e&quot;)
+
+# $nhs_language
+# [1] &quot;English&quot;
+# 
+# $license_title
+# [1] &quot;UK Open Government Licence (OGL)&quot;
+# 
+# $maintainer
+# [1] &quot;&quot;
+# 
+# $version
+# [1] &quot;&quot;
+#
+#...
+
 #&#39; view metadata for a resource using a valid resource id
 
 &gt; resource_metadata(resource=&quot;edee9731-daf7-4e0d-b525-e4c1469b8f69&quot;)
 
-#   id                          type   
-#   _id                         int    
-#   AgeGroup                    text   
-#   EuropeanStandardPopulation  numeric</code></pre>
+# $cache_last_updated
+# named list()
+#
+# $cache_url
+# named list()
+#
+# $mimetype_inner
+# named list()
+#
+# $hash
+# [1] &quot;&quot;
+#
+# $description
+# [1] &quot;Different countries across Europe have different population ...
+# 
+# $format
+# [1] &quot;CSV&quot;
+#...</code></pre>
 <p><br></p>
-<p>The package metadata contains useful information such as the time it
-was last modified, the publisher, a description, and notes.</p>
-<p>The resource metadata provides details of the available fields and
-their types. This information is particularly useful when putting
-together a query where we want to return only a subset of data. <br></p>
+<p>The package and resource metadata contains useful information such as
+the time it was last modified, the publisher, a description, and
+notes.</p>
+<p>It is also possible to view the data items available within a
+resource along with their types. This information is particularly useful
+when putting together a query where we want to return only a subset of
+data.</p>
+<pre><code>&gt; resource_data_items(resource=&quot;edee9731-daf7-4e0d-b525-e4c1469b8f69&quot;)
+#                           id    type
+# 1                        _id     int
+# 2                   AgeGroup    text
+# 3 EuropeanStandardPopulation numeric</code></pre>
+<p><br></p>
 </div>
 <div id="importing-data-to-r" class="section level2">
 <h2>Importing data to R</h2>
